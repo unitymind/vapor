@@ -34,6 +34,6 @@ extension HTTP.Status: AbortError {
     }
 
     public var reason: String {
-        return self.reasonPhrase
+        return self.reasonPhrase.string
     }
 }

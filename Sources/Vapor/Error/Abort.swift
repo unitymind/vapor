@@ -49,7 +49,7 @@ public struct Abort: AbortError, Debuggable {
     ) {
         self.status = status
         self.metadata = metadata
-        self.reason = reason ?? status.reasonPhrase
+        self.reason = reason ?? status.reasonPhrase.string
         self.identifier = identifier ?? "\(status)"
         self.possibleCauses = possibleCauses ?? []
         self.suggestedFixes = suggestedFixes ?? []

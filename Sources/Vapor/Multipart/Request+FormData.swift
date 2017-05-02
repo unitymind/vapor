@@ -18,7 +18,7 @@ extension HTTP.Message {
             guard
                 let type = headers[.contentType], type.contains("multipart/form-data"),
                 case let .data(bytes) = self.body,
-                let boundary = try? Parser.extractBoundary(contentType: type)
+                let boundary = try? Parser.extractBoundary(contentType: type.utf8String)
                 else { return nil }
 
             let multipart = Parser(boundary: boundary)

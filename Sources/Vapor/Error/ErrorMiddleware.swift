@@ -26,7 +26,7 @@ public final class ErrorMiddleware: Middleware {
             let status: Status = Status(error)
             let bytes = errorView.render(
                 code: status.statusCode,
-                message: status.reasonPhrase
+                message: status.reasonPhrase.string
             )
             return View(bytes: bytes).makeResponse()
         }
@@ -64,7 +64,7 @@ extension JSON {
         if let abort = error as? AbortError {
             json.set("reason", abort.reason)
         } else {
-            json.set("reason", status.reasonPhrase)
+            json.set("reason", status.reasonPhrase.string)
         }
         
         guard env != .production else {

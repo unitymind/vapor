@@ -37,7 +37,7 @@ public enum AllowOriginSetting {
     public func header(forRequest request: Request) -> String {
         switch self {
         case .none: return ""
-        case .originBased: return request.headers["Origin"] ?? ""
+        case .originBased: return request.headers["Origin"]?.string ?? ""
         case .all: return "*"
         case .custom(let string): return string
         }

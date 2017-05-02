@@ -7,19 +7,19 @@ public struct AcceptLanguage {
 
 extension Request {
     public var acceptLanguage: [AcceptLanguage] {
-        guard let acceptLanguageString = headers["Accept-Language"] else {
+        guard let acceptLanguageString = headers["Accept-Language"]?.bytes else {
             return []
         }
         
-        return acceptLanguageString.characters.split(separator: ",").flatMap { acceptLanguageSlice in
-            let pieces = acceptLanguageSlice.split(separator: ";")
-            guard let languageRange = pieces.first.flatMap({ String($0).trimmingCharacters(in: .whitespaces) }) else { return nil }
+        return acceptLanguageString.split(separator: .comma).flatMap { acceptLanguageSlice in
+            let pieces = acceptLanguageSlice.split(separator: .semicolon)
+            guard let languageRange = pieces.first.flatMap({ String(bytes: Array($0)).trimmingCharacters(in: .whitespaces) }) else { return nil }
             
             let quality: Double
             if pieces.count == 2 {
-                let q = pieces[1].split(separator: "=")
+                let q = pieces[1].split(separator: .equals)
                 if q.count == 2 {
-                    let valueString = String(q[1])
+                    let valueString = String(bytes: Array(q[1]))
                     quality = Double(valueString) ?? 1.0
                 } else {
                     quality = 1.0

@@ -1,3 +1,4 @@
+import Bits
 import HTTP
 
 public struct Accept {
@@ -33,15 +34,15 @@ extension Request {
             return []
         }
 
-        let accepts: [Accept] = acceptString.characters.split(separator: ",").flatMap { acceptSlice in
-            let pieces = acceptSlice.split(separator: ";")
-            guard let mediaType = pieces.first.flatMap({ String($0) }) else { return nil }
+        let accepts: [Accept] = acceptString.bytes.split(separator: .comma).flatMap { acceptSlice in
+            let pieces = acceptSlice.split(separator: .semicolon)
+            guard let mediaType = pieces.first.flatMap({ String(bytes: Array($0)) }) else { return nil }
 
             let preference: Double
             if pieces.count == 2 {
-                let q = pieces[1].split(separator: "=")
+                let q = pieces[1].split(separator: .equals)
                 if q.count == 2 {
-                    let preferenceString = String(q[1])
+                    let preferenceString = String(bytes: Array(q[1]))
                     preference = Double(preferenceString) ?? 1.0
                 } else {
                     preference = 1.0
